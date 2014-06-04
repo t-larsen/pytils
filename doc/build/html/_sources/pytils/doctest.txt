@@ -1,0 +1,23 @@
+doctest
+=======
+
+Functions
+---------
+
+.. automodule:: doctest
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+
+Code
+----
+
+.. literalinclude:: ../../../pytils/doctest.py
+
+
+Test
+----
+
+PEP8
+++++

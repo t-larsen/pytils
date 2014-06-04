@@ -14,16 +14,20 @@ not give any problems.
 
 If we have a file structure as e.g.:
 
-    run_single_doctest.py
-    warm/tvt.py
-        /tvt.dt
-        /...
-        /...
+.. code-block:: python
+
+   run_single_doctest.py
+   warm/tvt.py
+       /tvt.dt
+       /...
+       /...
 
 The script is executed for test of "tvt" as:
 
-    $ python run_single_doctest warm/tvt       # quiet test
-    $ python run_single_doctest warm/tvt -v    # verbose test
+.. code-block:: python
+
+   $ python run_single_doctest warm/tvt       # quiet test
+   $ python run_single_doctest warm/tvt -v    # verbose test
 
 """
 

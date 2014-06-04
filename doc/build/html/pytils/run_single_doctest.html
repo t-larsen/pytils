@@ -1,0 +1,192 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>run_single_doctest &mdash; pytils 0.0.1 documentation</title>
+    
+    <link rel="stylesheet" href="../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '0.0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="pytils 0.0.1 documentation" href="../index.html" />
+    <link rel="prev" title="run_full_doctest" href="run_full_doctest.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="run_full_doctest.html" title="run_full_doctest"
+             accesskey="P">previous</a> |</li>
+        <li><a href="../index.html">pytils 0.0.1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="run-single-doctest">
+<h1>run_single_doctest<a class="headerlink" href="#run-single-doctest" title="Permalink to this headline">¶</a></h1>
+<p>Script to doctests of a specific module.  Input to the script
+is full relative directory and main filename (without &#8221;.py&#8221; or
+&#8221;.dtst&#8221; extension).  The script tests for both a matching &#8221;.py&#8221;
+and &#8221;.dtst&#8221; files.</p>
+<p>It is recommended to only include examples (thus doctests) in the
+&#8221;.py&#8221; file which makes sense to demonstrate the capabilities of that
+given function.  If a more comprehensive test is desired besides that
+it is better placed in a file of the same name but with extension
+&#8221;.dt&#8221; (for &#8220;DocTest&#8221;).  If a test should appear in both files it
+does not hurt as such - it is obviously not necessary but it does
+not give any problems.</p>
+<p>If we have a file structure as e.g.:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">run_single_doctest</span><span class="o">.</span><span class="n">py</span>
+<span class="n">warm</span><span class="o">/</span><span class="n">tvt</span><span class="o">.</span><span class="n">py</span>
+    <span class="o">/</span><span class="n">tvt</span><span class="o">.</span><span class="n">dt</span>
+    <span class="o">/...</span>
+    <span class="o">/...</span>
+</pre></div>
+</div>
+<p>The script is executed for test of &#8220;tvt&#8221; as:</p>
+<div class="highlight-python"><div class="highlight"><pre>$ python run_single_doctest warm/tvt       # quiet test
+$ python run_single_doctest warm/tvt -v    # verbose test
+</pre></div>
+</div>
+<div class="section" id="code">
+<h2>Code<a class="headerlink" href="#code" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-python"><div class="highlight"><pre><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Script to doctests of a specific module.  Input to the script</span>
+<span class="sd">is full relative directory and main filename (without &quot;.py&quot; or</span>
+<span class="sd">&quot;.dtst&quot; extension).  The script tests for both a matching &quot;.py&quot;</span>
+<span class="sd">and &quot;.dtst&quot; files.</span>
+
+<span class="sd">It is recommended to only include examples (thus doctests) in the</span>
+<span class="sd">&quot;.py&quot; file which makes sense to demonstrate the capabilities of that</span>
+<span class="sd">given function.  If a more comprehensive test is desired besides that</span>
+<span class="sd">it is better placed in a file of the same name but with extension</span>
+<span class="sd">&quot;.dt&quot; (for &quot;DocTest&quot;).  If a test should appear in both files it</span>
+<span class="sd">does not hurt as such - it is obviously not necessary but it does</span>
+<span class="sd">not give any problems.</span>
+
+<span class="sd">If we have a file structure as e.g.:</span>
+
+<span class="sd">.. code-block:: python</span>
+
+<span class="sd">   run_single_doctest.py</span>
+<span class="sd">   warm/tvt.py</span>
+<span class="sd">       /tvt.dt</span>
+<span class="sd">       /...</span>
+<span class="sd">       /...</span>
+
+<span class="sd">The script is executed for test of &quot;tvt&quot; as:</span>
+
+<span class="sd">.. code-block:: python</span>
+
+<span class="sd">   $ python run_single_doctest warm/tvt       # quiet test</span>
+<span class="sd">   $ python run_single_doctest warm/tvt -v    # verbose test</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">import</span> <span class="nn">sys</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">doctest</span>
+
+<span class="c"># Read filename from input arg</span>
+<span class="n">full_module_name</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+
+<span class="c"># Perform doctest of .py file if it exists</span>
+<span class="k">print</span><span class="p">(</span><span class="s">&#39;{0}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="mi">78</span><span class="o">*</span><span class="s">&#39;=&#39;</span><span class="p">))</span>
+<span class="n">full_file_name</span> <span class="o">=</span> <span class="s">&quot;{0}.{1}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">full_module_name</span><span class="p">,</span> <span class="s">&#39;py&#39;</span><span class="p">)</span>
+<span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="n">full_file_name</span><span class="p">):</span>
+    <span class="k">print</span><span class="p">(</span><span class="s">&#39;File under doctest:   {0}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">full_file_name</span><span class="p">))</span>
+    <span class="n">doctest</span><span class="o">.</span><span class="n">testfile</span><span class="p">(</span><span class="n">full_file_name</span><span class="p">)</span>
+
+<span class="c"># Perform doctest of .dt file if it exists</span>
+<span class="n">full_file_name</span> <span class="o">=</span> <span class="s">&quot;{0}.{1}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">full_module_name</span><span class="p">,</span> <span class="s">&#39;dt&#39;</span><span class="p">)</span>
+<span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="n">full_file_name</span><span class="p">):</span>
+    <span class="k">print</span><span class="p">(</span><span class="s">&#39;{0}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="mi">78</span><span class="o">*</span><span class="s">&#39;-&#39;</span><span class="p">))</span>
+    <span class="k">print</span><span class="p">(</span><span class="s">&#39;File under doctest:   {0}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">full_file_name</span><span class="p">))</span>
+    <span class="n">doctest</span><span class="o">.</span><span class="n">testfile</span><span class="p">(</span><span class="n">full_file_name</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="s">&#39;{0}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="mi">78</span><span class="o">*</span><span class="s">&#39;=&#39;</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">run_single_doctest</a><ul>
+<li><a class="reference internal" href="#code">Code</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="run_full_doctest.html"
+                        title="previous chapter">run_full_doctest</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="../_sources/pytils/run_single_doctest.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="run_full_doctest.html" title="run_full_doctest"
+             >previous</a> |</li>
+        <li><a href="../index.html">pytils 0.0.1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2014, Torben Larsen.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.2.
+    </div>
+  </body>
+</html>

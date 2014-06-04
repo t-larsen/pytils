@@ -18,36 +18,30 @@ but it does not give any problems.
 
 The script is executed as:
 
-    $ python run_full_doctest      # quiet test if all is ok
-    $ python run_full_doctest -v   # to print all intermediate results
+.. code-block:: python
 
-Author:
-    Torben Larsen, Aalborg University, Denmark.
-Version:
-    0.0.1 | 20-APR-2014 : * Initial version.
-    0.0.2 | 08-MAY-2014 : * Introduced omit_files tuple including files not to
-                            be included in the test.
-License:
-    BSD 2-Clause
-    
+   $ python run_full_doctest      # quiet test if all is ok
+   $ python run_full_doctest -v   # to print all intermediate results
+
 """
 
 import os
 import doctest
 
+
 # Files not included in the test
-omit_files = ('run_full_doctest.py', 'run_single_doctest.py', '__init__.py')
+OMIT_FILES = ('run_full_doctest.py', 'run_single_doctest.py', '__init__.py')
 
 # Perform test
-path = '.'
+PATH = './'
 print('{0}'.format(78*'='))
-for (dirpath, dirnames, filenames) in os.walk(path):
+for (dirpath, dirnames, filenames) in os.walk(PATH):
     for filename in filenames:
         # Extract filename extension
         ext_name = os.path.splitext(filename)[1][1:].strip().lower()
 
         # Perform doctest for all relevant .py and .dt files
-        go = filename not in omit_files
+        go = filename not in OMIT_FILES
         if ext_name in ('py', 'dt') and go:
             full_filename = os.sep.join([dirpath, filename])
             disp_str = "File under doctest:   {0}".format(filename)

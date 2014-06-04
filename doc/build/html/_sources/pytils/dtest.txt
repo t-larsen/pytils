@@ -1,0 +1,21 @@
+dtest
+=====
+
+Functions
+---------
+
+.. automodule:: pytils.dtest
+   :members: full_test, single_test
+
+
+Code
+----
+
+.. literalinclude:: ../../../pytils/dtest.py
+
+
+Test
+----
+
+PEP8
+++++
