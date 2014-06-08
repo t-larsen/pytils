@@ -1,10 +1,7 @@
 Copyright (c) 2014,
 
-Primary developer:
+Developer:
   Torben Larsen, Aalborg University, Denmark.
-
-Additional developers:
-  None.
 
 Institution:
   Aalborg University, Department of Electronic Systems, Signal and Information

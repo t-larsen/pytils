@@ -1,39 +1,19 @@
-===================
-0.0.2 (08-MAY-2014)
-===================
 
-Additions
----------
+0.0.1 (04-JUN-2014)
++++++++++++++++++++
 
-- Introduced OMIT_FILES tuple including files not to be included in the test.
+- **pytils.dtest**: Changed the dtest scripts to be modules that can be
+  used as both scripts and for import. Small modifications to the code
+  was included such as inclusion of docstrings, catching invalid user
+  input etc. Doctests also implemented.
 
+0.0.1 (06-JUN-2014)
++++++++++++++++++++
 
-Improvements
-------------
-
-- Constants in uppercase.
-
-
-Bug Fixes
----------
-
-- None.
-
-
-===================
-0.0.1 (20-APR-2014)
-===================
-
-
-Additions
----------
-
-- Initial version providing the base functionality as described by the
-  function docstrings.
-
-
-
-
-
-
-
+- 'pytils.dtest' Modified the call to doctest.testfile to set
+  module_relative=False. This means that directories for test are
+  specified.
+- Directory 'pytils/launchers' created where the earlier 'pytils.dtest'
+  has been renamed to 'pytils.launchers.doctests'.
+- File 'pytils.launchers.scripts' added. This supports running a
+  collection of scripts by calling just one script.
