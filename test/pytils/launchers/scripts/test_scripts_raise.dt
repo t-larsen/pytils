@@ -1,0 +1,58 @@
+# Import function to be tested via doctest
+>>> from pytils.launchers.scripts import run_seq
+>>> from pytils.launchers.scripts import run_par
+>>> from pytils.launchers.scripts import _script_commands
+
+# Import of support modules/packages
+>>> import numpy as np
+>>> import os
+
+
+#----------------------------------------------------------------------------
+# _script_commands
+#----------------------------------------------------------------------------
+>>> (path, headname) = ('examples/launchers/__invalid__', '__nonsense__')
+>>> _script_commands(path, headname)  # doctest: +ELLIPSIS
+Traceback (most recent call last):
+...
+ValueError: Path (...) is not a directory.
+
+
+>>> (path, headname) = ('examples/launchers/scripts/cases', '__nonsense__')
+>>> cmds = _script_commands(path, headname)  # doctest: +ELLIPSIS
+>>> print(len(cmds))
+0
+
+
+#----------------------------------------------------------------------------
+# run_seq
+#----------------------------------------------------------------------------
+>>> (path, headname) = ('examples/launchers/__invalid__', '__nonsense__')
+>>> run_seq(path, headname)  # doctest: +ELLIPSIS
+Traceback (most recent call last):
+...
+ValueError: Path (...) is not a directory.
+
+
+>>> (path, headname) = ('examples/launchers/scripts/cases', '__nonsense__')
+>>> run_seq(path, headname)  # doctest: +ELLIPSIS
+Traceback (most recent call last):
+...
+ValueError: No valid script files.
+
+
+>>> (path, headname) = ('examples/launchers/scripts/cases', 'case')
+>>> no_scripts = run_seq(path, headname)  # doctest: +ELLIPSIS
+>>> print(no_scripts)
+4
+
+
+
+#----------------------------------------------------------------------------
+# run_par
+#----------------------------------------------------------------------------
+
+>>> (path, headname) = ('examples/launchers/scripts/cases', 'case')
+>>> no_scripts = run_par(path, headname)  # doctest: +ELLIPSIS
+
+
