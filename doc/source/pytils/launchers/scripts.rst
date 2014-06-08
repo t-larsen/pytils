@@ -1,5 +1,5 @@
-dtest
-=====
+scripts
+=======
 This sub-package includes modules (which can also run as scripts) to
 assist a developer in ensuring that all doctests in a package are
 executed. The functions are based on doctests included in '.py' or
@@ -13,34 +13,28 @@ executed. The functions are based on doctests included in '.py' or
    for example can be to test functionality against an 'oracle'
    (a known correct result to a specific problem).
 
+.. include:: ../../../../pytils/launchers/scripts.py
+   :start-after: """
+   :end-before: """
+
+
 Functions
 ---------
 
-run_full_doctest
-++++++++++++++++
+.. autofunction:: pytils.launchers.scripts._validate_input
 
-.. automodule:: pytils.dtest.run_full_doctest
-   :members: full_test
+.. autofunction:: pytils.launchers.scripts._script_commands
 
-run_single_doctest
-++++++++++++++++++
+.. autofunction:: pytils.launchers.scripts.run_seq
 
-.. automodule:: pytils.dtest.run_single_doctest
-   :members: single_test
+.. autofunction:: pytils.launchers.scripts.run_par
 
 
 Code
 ----
 
-run_full_doctest
-++++++++++++++++
+.. literalinclude:: ../../../../pytils/launchers/scripts.py
 
-.. literalinclude:: ../../../pytils/dtest/run_full_doctest.py
-
-run_single_doctest
-++++++++++++++++++
-
-.. literalinclude:: ../../../pytils/dtest/run_single_doctest.py
 
 
 Test

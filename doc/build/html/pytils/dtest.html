@@ -25,6 +25,7 @@
     <script type="text/javascript" src="../_static/doctools.js"></script>
     <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="top" title="pytils 0.0.1 documentation" href="../index.html" />
+    <link rel="next" title="README" href="_readme.html" />
     <link rel="prev" title="pytils" href="../index.html" /> 
   </head>
   <body>
@@ -37,6 +38,9 @@
         <li class="right" >
           <a href="../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
+        <li class="right" >
+          <a href="_readme.html" title="README"
+             accesskey="N">next</a> |</li>
         <li class="right" >
           <a href="../index.html" title="pytils"
              accesskey="P">previous</a> |</li>
@@ -51,30 +55,26 @@
             
   <div class="section" id="dtest">
 <h1>dtest<a class="headerlink" href="#dtest" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="module-pytils.dtest">
-<span id="functions"></span><h2>Functions<a class="headerlink" href="#module-pytils.dtest" title="Permalink to this headline">¶</a></h2>
-<p>Script to automatically launch all doctests from working directory and below
-(in sub-directories). All files with &#8221;.py&#8221; and &#8221;.dt&#8221; extensions are found and
-are used as argument to the doctest command doctest.testfile(). When writing
-the doctests it must be remembered that each doctest containing file must
-import the function being tested. As as example we have a file named &#8220;test.py&#8221;
-in the directory &#8220;cold&#8221; located in the root of the installation (in the same
-folder as the master file &#8220;run_full_doctest.py&#8221;) - we wish to test the
-function &#8220;wild&#8221;. In this case we must ensure the following line
-&#8216;&gt;&gt;&gt; from cold.test import wild&#8217; is present before any doctest.</p>
-<p>It is recommended to only include examples (thus doctests) in the &#8221;.py&#8221; file
-which makes sense to demonstrate the capabilities of that given function. If a
-more comprehensive test is desired besides that it is better placed in a file
-of the same name but with extension &#8221;.dt&#8221; (for &#8220;DocTest&#8221;). If a test should
-appear in both files it does not hurt as such - it is obviously not necessary
-but it does not give any problems.</p>
-<p>The script is executed as:</p>
-<blockquote>
-<div>$ python run_full_doctest      # quiet test if all is ok
-$ python run_full_doctest -v   # to print all intermediate results</div></blockquote>
+<p>This sub-package includes modules (which can also run as scripts) to
+assist a developer in ensuring that all doctests in a package are
+executed. The functions are based on doctests included in &#8216;.py&#8217; or
+&#8216;.dt&#8217; files:</p>
+<ol class="arabic simple">
+<li>The &#8216;.py&#8217; type of files typically includes relevant examples, which
+assists in actual typical use-cases. These both serves as a direct
+help to the user on how to use the functions but also serves a
+partial testing framework.</li>
+<li>The &#8216;.dt&#8217; type of files are used for some special doctests, which
+for example can be to test functionality against an &#8216;oracle&#8217;
+(a known correct result to a specific problem).</li>
+</ol>
+<div class="section" id="functions">
+<h2>Functions<a class="headerlink" href="#functions" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="module-pytils.dtest.run_full_doctest">
+<span id="run-full-doctest"></span><h3>run_full_doctest<a class="headerlink" href="#module-pytils.dtest.run_full_doctest" title="Permalink to this headline">¶</a></h3>
 <dl class="function">
-<dt id="pytils.dtest.full_test">
-<tt class="descclassname">pytils.dtest.</tt><tt class="descname">full_test</tt><big>(</big><em>path='./'</em>, <em>verbose='-'</em><big>)</big><a class="reference internal" href="../_modules/pytils/dtest.html#full_test"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pytils.dtest.full_test" title="Permalink to this definition">¶</a></dt>
+<dt id="pytils.dtest.run_full_doctest.full_test">
+<tt class="descclassname">pytils.dtest.run_full_doctest.</tt><tt class="descname">full_test</tt><big>(</big><em>*args</em><big>)</big><a class="reference internal" href="../_modules/pytils/dtest/run_full_doctest.html#full_test"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pytils.dtest.run_full_doctest.full_test" title="Permalink to this definition">¶</a></dt>
 <dd><p>Perform full doctest of all relevant .py and .dt files.</p>
 <dl class="docutils">
 <dt>Args:</dt>
@@ -95,39 +95,68 @@ test fails.</p>
 </dd></dl>
 
 </div>
+<div class="section" id="module-pytils.dtest.run_single_doctest">
+<span id="run-single-doctest"></span><h3>run_single_doctest<a class="headerlink" href="#module-pytils.dtest.run_single_doctest" title="Permalink to this headline">¶</a></h3>
+<p>Script to doctests of a specific module.  Input to the script
+is full relative directory and main filename (without &#8221;.py&#8221; or
+&#8221;.dtst&#8221; extension).  The script tests for both a matching &#8221;.py&#8221;
+and &#8221;.dtst&#8221; files.</p>
+<p>It is recommended to only include examples (thus doctests) in the
+&#8221;.py&#8221; file which makes sense to demonstrate the capabilities of that
+given function.  If a more comprehensive test is desired besides that
+it is better placed in a file of the same name but with extension
+&#8221;.dt&#8221; (for &#8220;DocTest&#8221;).  If a test should appear in both files it
+does not hurt as such - it is obviously not necessary but it does
+not give any problems.</p>
+<p>If we have a file structure as e.g.:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">run_single_doctest</span><span class="o">.</span><span class="n">py</span>
+<span class="n">warm</span><span class="o">/</span><span class="n">tvt</span><span class="o">.</span><span class="n">py</span>
+    <span class="o">/</span><span class="n">tvt</span><span class="o">.</span><span class="n">dt</span>
+    <span class="o">/...</span>
+    <span class="o">/...</span>
+</pre></div>
+</div>
+<p>The script is executed for test of &#8220;tvt&#8221; as:</p>
+<div class="highlight-python"><div class="highlight"><pre>$ python run_single_doctest warm/tvt       # quiet test
+$ python run_single_doctest warm/tvt -v    # verbose test
+</pre></div>
+</div>
+<dl class="function">
+<dt id="pytils.dtest.run_single_doctest.single_test">
+<tt class="descclassname">pytils.dtest.run_single_doctest.</tt><tt class="descname">single_test</tt><big>(</big><em>*args</em><big>)</big><a class="reference internal" href="../_modules/pytils/dtest/run_single_doctest.html#single_test"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#pytils.dtest.run_single_doctest.single_test" title="Permalink to this definition">¶</a></dt>
+<dd><p>Perform full doctest of all relevant .py and .dt files.</p>
+<dl class="docutils">
+<dt>Args:</dt>
+<dd><p class="first"><em>path</em> (str): Path of the source directory for which to search
+for doctest containing .py and .dt files. All directories
+below <em>path</em> is also searched.</p>
+<p class="last"><em>verbose</em> (str): Verbose level where &#8216;-v&#8217; indicates detailed
+test information is printed. Any other setting provides a
+&#8216;quiet&#8217; mode where only the tested filename is provided when
+a test passes - and detailed information is provided if the
+test fails.</p>
+</dd>
+<dt>Returns:</dt>
+<dd>Nothing.</dd>
+<dt>Raises:</dt>
+<dd>Nothing.</dd>
+</dl>
+</dd></dl>
+
+</div>
+</div>
 <div class="section" id="code">
 <h2>Code<a class="headerlink" href="#code" title="Permalink to this headline">¶</a></h2>
-<div class="highlight-python"><div class="highlight"><pre><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">Script to automatically launch all doctests from working directory and below</span>
-<span class="sd">(in sub-directories). All files with &quot;.py&quot; and &quot;.dt&quot; extensions are found and</span>
-<span class="sd">are used as argument to the doctest command doctest.testfile(). When writing</span>
-<span class="sd">the doctests it must be remembered that each doctest containing file must</span>
-<span class="sd">import the function being tested. As as example we have a file named &quot;test.py&quot;</span>
-<span class="sd">in the directory &quot;cold&quot; located in the root of the installation (in the same</span>
-<span class="sd">folder as the master file &quot;run_full_doctest.py&quot;) - we wish to test the</span>
-<span class="sd">function &quot;wild&quot;. In this case we must ensure the following line</span>
-<span class="sd">&#39;&gt;&gt;&gt; from cold.test import wild&#39; is present before any doctest.</span>
-
-<span class="sd">It is recommended to only include examples (thus doctests) in the &quot;.py&quot; file</span>
-<span class="sd">which makes sense to demonstrate the capabilities of that given function. If a</span>
-<span class="sd">more comprehensive test is desired besides that it is better placed in a file</span>
-<span class="sd">of the same name but with extension &quot;.dt&quot; (for &quot;DocTest&quot;). If a test should</span>
-<span class="sd">appear in both files it does not hurt as such - it is obviously not necessary</span>
-<span class="sd">but it does not give any problems.</span>
-
-<span class="sd">The script is executed as:</span>
-
-<span class="sd">    $ python run_full_doctest      # quiet test if all is ok</span>
-<span class="sd">    $ python run_full_doctest -v   # to print all intermediate results</span>
-
-<span class="sd">&quot;&quot;&quot;</span>
-
+<div class="section" id="id1">
+<h3>run_full_doctest<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">doctest</span>
 <span class="kn">import</span> <span class="nn">os</span>
-<span class="kn">import</span> <span class="nn">doctest</span>
+<span class="kn">import</span> <span class="nn">sys</span>
 
-<span class="k">def</span> <span class="nf">full_test</span><span class="p">(</span><span class="n">path</span><span class="o">=</span><span class="s">&#39;./&#39;</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="s">&#39;-&#39;</span><span class="p">):</span>
+
+<span class="k">def</span> <span class="nf">full_test</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Perform full doctest of all relevant .py and .dt files.</span>
-<span class="sd">    </span>
+
 <span class="sd">    Args:</span>
 <span class="sd">        *path* (str): Path of the source directory for which to search</span>
 <span class="sd">        for doctest containing .py and .dt files. All directories</span>
@@ -144,8 +173,15 @@ test fails.</p>
 
 <span class="sd">    Raises:</span>
 <span class="sd">        Nothing.</span>
-<span class="sd">        </span>
+
 <span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c"># Determine path and verbose level</span>
+    <span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">verbose</span><span class="p">)</span> <span class="o">=</span> <span class="p">(</span><span class="s">&#39;./&#39;</span><span class="p">,</span> <span class="s">&#39;quiet&#39;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">args</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">]):</span>
+        <span class="n">path</span> <span class="o">=</span> <span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">args</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="n">verbose</span> <span class="o">=</span> <span class="n">args</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+
     <span class="c"># Files not included in the test</span>
     <span class="n">omit_files</span> <span class="o">=</span> <span class="p">(</span><span class="s">&#39;run_full_doctest.py&#39;</span><span class="p">,</span> <span class="s">&#39;run_single_doctest.py&#39;</span><span class="p">,</span>
                   <span class="s">&#39;__init__.py&#39;</span><span class="p">)</span>
@@ -161,16 +197,89 @@ test fails.</p>
             <span class="n">go</span> <span class="o">=</span> <span class="n">filename</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">omit_files</span>
             <span class="k">if</span> <span class="n">ext_name</span> <span class="ow">in</span> <span class="p">(</span><span class="s">&#39;py&#39;</span><span class="p">,</span> <span class="s">&#39;dt&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="n">go</span><span class="p">:</span>
                 <span class="n">full_filename</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">sep</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="n">dirpath</span><span class="p">,</span> <span class="n">filename</span><span class="p">])</span>
-                <span class="n">disp_str</span> <span class="o">=</span> <span class="s">&quot;File under doctest:   {0}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
-                <span class="k">print</span><span class="p">(</span><span class="s">&quot;{0}</span><span class="se">\n</span><span class="s">{1}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">disp_str</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">disp_str</span><span class="p">)</span><span class="o">*</span><span class="s">&#39;-&#39;</span><span class="p">))</span>
+                <span class="n">disp_str</span> <span class="o">=</span> <span class="s">&quot;Doctest file:   {0}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
+                <span class="k">print</span><span class="p">(</span><span class="s">&quot;{0}</span><span class="se">\n</span><span class="s">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">disp_str</span><span class="p">))</span>
                 <span class="n">doctest</span><span class="o">.</span><span class="n">testfile</span><span class="p">(</span><span class="n">full_filename</span><span class="p">)</span>
                 <span class="k">print</span><span class="p">(</span><span class="s">&#39;{0}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="mi">78</span><span class="o">*</span><span class="s">&#39;=&#39;</span><span class="p">))</span>
 
 
-<span class="k">def</span> <span class="nf">single_test</span><span class="p">(</span><span class="n">filename</span><span class="p">):</span>
-    <span class="c"># Read filename from input arg</span>
-    <span class="n">full_module_name</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">&quot;__main__&quot;</span><span class="p">:</span>
+    <span class="n">full_test</span><span class="p">(</span><span class="o">*</span><span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">:])</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="id2">
+<h3>run_single_doctest<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-python"><div class="highlight"><pre><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Script to doctests of a specific module.  Input to the script</span>
+<span class="sd">is full relative directory and main filename (without &quot;.py&quot; or</span>
+<span class="sd">&quot;.dtst&quot; extension).  The script tests for both a matching &quot;.py&quot;</span>
+<span class="sd">and &quot;.dtst&quot; files.</span>
 
+<span class="sd">It is recommended to only include examples (thus doctests) in the</span>
+<span class="sd">&quot;.py&quot; file which makes sense to demonstrate the capabilities of that</span>
+<span class="sd">given function.  If a more comprehensive test is desired besides that</span>
+<span class="sd">it is better placed in a file of the same name but with extension</span>
+<span class="sd">&quot;.dt&quot; (for &quot;DocTest&quot;).  If a test should appear in both files it</span>
+<span class="sd">does not hurt as such - it is obviously not necessary but it does</span>
+<span class="sd">not give any problems.</span>
+
+<span class="sd">If we have a file structure as e.g.:</span>
+
+<span class="sd">.. code-block:: python</span>
+
+<span class="sd">   run_single_doctest.py</span>
+<span class="sd">   warm/tvt.py</span>
+<span class="sd">       /tvt.dt</span>
+<span class="sd">       /...</span>
+<span class="sd">       /...</span>
+
+<span class="sd">The script is executed for test of &quot;tvt&quot; as:</span>
+
+<span class="sd">.. code-block:: python</span>
+
+<span class="sd">   $ python run_single_doctest warm/tvt       # quiet test</span>
+<span class="sd">   $ python run_single_doctest warm/tvt -v    # verbose test</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">import</span> <span class="nn">sys</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">doctest</span>
+
+
+<span class="k">def</span> <span class="nf">single_test</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Perform full doctest of all relevant .py and .dt files.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        *path* (str): Path of the source directory for which to search</span>
+<span class="sd">        for doctest containing .py and .dt files. All directories</span>
+<span class="sd">        below *path* is also searched.</span>
+
+<span class="sd">        *verbose* (str): Verbose level where &#39;-v&#39; indicates detailed</span>
+<span class="sd">        test information is printed. Any other setting provides a</span>
+<span class="sd">        &#39;quiet&#39; mode where only the tested filename is provided when</span>
+<span class="sd">        a test passes - and detailed information is provided if the</span>
+<span class="sd">        test fails.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Nothing.</span>
+
+<span class="sd">    Raises:</span>
+<span class="sd">        Nothing.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c"># Validate inputs and set default verbose if necessary</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">len</span><span class="p">(</span><span class="n">args</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s">&#39;No filename specified.&#39;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">]):</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s">&#39;File does not exist.&#39;</span><span class="p">)</span>
+    <span class="p">(</span><span class="n">full_module_name</span><span class="p">,</span> <span class="n">verbose</span><span class="p">)</span> <span class="o">=</span> <span class="p">(</span><span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="s">&#39;quiet&#39;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">args</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="n">verbose</span> <span class="o">=</span> <span class="n">args</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+
+    <span class="k">print</span> <span class="n">full_module_name</span><span class="p">,</span> <span class="n">verbose</span>
+    
     <span class="c"># Perform doctest of .py file if it exists</span>
     <span class="k">print</span><span class="p">(</span><span class="s">&#39;{0}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="mi">78</span><span class="o">*</span><span class="s">&#39;=&#39;</span><span class="p">))</span>
     <span class="n">full_file_name</span> <span class="o">=</span> <span class="s">&quot;{0}.{1}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">full_module_name</span><span class="p">,</span> <span class="s">&#39;py&#39;</span><span class="p">)</span>
@@ -185,13 +294,12 @@ test fails.</p>
         <span class="k">print</span><span class="p">(</span><span class="s">&#39;File under doctest:   {0}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">full_file_name</span><span class="p">))</span>
         <span class="n">doctest</span><span class="o">.</span><span class="n">testfile</span><span class="p">(</span><span class="n">full_file_name</span><span class="p">)</span>
     <span class="k">print</span><span class="p">(</span><span class="s">&#39;{0}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="mi">78</span><span class="o">*</span><span class="s">&#39;=&#39;</span><span class="p">))</span>
-    
+
 
 <span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">&quot;__main__&quot;</span><span class="p">:</span>
-    <span class="n">full_test</span><span class="p">()</span>
-    
-    
+    <span class="n">single_test</span><span class="p">(</span><span class="o">*</span><span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">:])</span>
 </pre></div>
+</div>
 </div>
 </div>
 <div class="section" id="test">
@@ -211,8 +319,16 @@ test fails.</p>
   <h3><a href="../index.html">Table Of Contents</a></h3>
   <ul>
 <li><a class="reference internal" href="#">dtest</a><ul>
-<li><a class="reference internal" href="#module-pytils.dtest">Functions</a></li>
-<li><a class="reference internal" href="#code">Code</a></li>
+<li><a class="reference internal" href="#functions">Functions</a><ul>
+<li><a class="reference internal" href="#module-pytils.dtest.run_full_doctest">run_full_doctest</a></li>
+<li><a class="reference internal" href="#module-pytils.dtest.run_single_doctest">run_single_doctest</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#code">Code</a><ul>
+<li><a class="reference internal" href="#id1">run_full_doctest</a></li>
+<li><a class="reference internal" href="#id2">run_single_doctest</a></li>
+</ul>
+</li>
 <li><a class="reference internal" href="#test">Test</a><ul>
 <li><a class="reference internal" href="#pep8">PEP8</a></li>
 </ul>
@@ -224,6 +340,9 @@ test fails.</p>
   <h4>Previous topic</h4>
   <p class="topless"><a href="../index.html"
                         title="previous chapter">pytils</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="_readme.html"
+                        title="next chapter">README</a></p>
   <h3>This Page</h3>
   <ul class="this-page-menu">
     <li><a href="../_sources/pytils/dtest.txt"
@@ -255,6 +374,9 @@ test fails.</p>
         <li class="right" >
           <a href="../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
+        <li class="right" >
+          <a href="_readme.html" title="README"
+             >next</a> |</li>
         <li class="right" >
           <a href="../index.html" title="pytils"
              >previous</a> |</li>

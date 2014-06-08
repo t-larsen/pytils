@@ -111,23 +111,57 @@ $ python run_single_doctest warm/tvt -v    # verbose test
 <span class="kn">import</span> <span class="nn">os</span>
 <span class="kn">import</span> <span class="nn">doctest</span>
 
-<span class="c"># Read filename from input arg</span>
-<span class="n">full_module_name</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
 
-<span class="c"># Perform doctest of .py file if it exists</span>
-<span class="k">print</span><span class="p">(</span><span class="s">&#39;{0}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="mi">78</span><span class="o">*</span><span class="s">&#39;=&#39;</span><span class="p">))</span>
-<span class="n">full_file_name</span> <span class="o">=</span> <span class="s">&quot;{0}.{1}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">full_module_name</span><span class="p">,</span> <span class="s">&#39;py&#39;</span><span class="p">)</span>
-<span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="n">full_file_name</span><span class="p">):</span>
-    <span class="k">print</span><span class="p">(</span><span class="s">&#39;File under doctest:   {0}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">full_file_name</span><span class="p">))</span>
-    <span class="n">doctest</span><span class="o">.</span><span class="n">testfile</span><span class="p">(</span><span class="n">full_file_name</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">single_test</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Perform full doctest of all relevant .py and .dt files.</span>
 
-<span class="c"># Perform doctest of .dt file if it exists</span>
-<span class="n">full_file_name</span> <span class="o">=</span> <span class="s">&quot;{0}.{1}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">full_module_name</span><span class="p">,</span> <span class="s">&#39;dt&#39;</span><span class="p">)</span>
-<span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="n">full_file_name</span><span class="p">):</span>
-    <span class="k">print</span><span class="p">(</span><span class="s">&#39;{0}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="mi">78</span><span class="o">*</span><span class="s">&#39;-&#39;</span><span class="p">))</span>
-    <span class="k">print</span><span class="p">(</span><span class="s">&#39;File under doctest:   {0}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">full_file_name</span><span class="p">))</span>
-    <span class="n">doctest</span><span class="o">.</span><span class="n">testfile</span><span class="p">(</span><span class="n">full_file_name</span><span class="p">)</span>
-<span class="k">print</span><span class="p">(</span><span class="s">&#39;{0}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="mi">78</span><span class="o">*</span><span class="s">&#39;=&#39;</span><span class="p">))</span>
+<span class="sd">    Args:</span>
+<span class="sd">        *path* (str): Path of the source directory for which to search</span>
+<span class="sd">        for doctest containing .py and .dt files. All directories</span>
+<span class="sd">        below *path* is also searched.</span>
+
+<span class="sd">        *verbose* (str): Verbose level where &#39;-v&#39; indicates detailed</span>
+<span class="sd">        test information is printed. Any other setting provides a</span>
+<span class="sd">        &#39;quiet&#39; mode where only the tested filename is provided when</span>
+<span class="sd">        a test passes - and detailed information is provided if the</span>
+<span class="sd">        test fails.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Nothing.</span>
+
+<span class="sd">    Raises:</span>
+<span class="sd">        Nothing.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c"># Validate inputs and set default verbose if necessary</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">len</span><span class="p">(</span><span class="n">args</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s">&#39;No filename specified.&#39;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">]):</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s">&#39;File does not exist.&#39;</span><span class="p">)</span>
+    <span class="p">(</span><span class="n">full_module_name</span><span class="p">,</span> <span class="n">verbose</span><span class="p">)</span> <span class="o">=</span> <span class="p">(</span><span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="s">&#39;quiet&#39;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">args</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="n">verbose</span> <span class="o">=</span> <span class="n">args</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+
+    <span class="k">print</span> <span class="n">full_module_name</span><span class="p">,</span> <span class="n">verbose</span>
+    
+    <span class="c"># Perform doctest of .py file if it exists</span>
+    <span class="k">print</span><span class="p">(</span><span class="s">&#39;{0}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="mi">78</span><span class="o">*</span><span class="s">&#39;=&#39;</span><span class="p">))</span>
+    <span class="n">full_file_name</span> <span class="o">=</span> <span class="s">&quot;{0}.{1}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">full_module_name</span><span class="p">,</span> <span class="s">&#39;py&#39;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="n">full_file_name</span><span class="p">):</span>
+        <span class="k">print</span><span class="p">(</span><span class="s">&#39;File under doctest:   {0}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">full_file_name</span><span class="p">))</span>
+        <span class="n">doctest</span><span class="o">.</span><span class="n">testfile</span><span class="p">(</span><span class="n">full_file_name</span><span class="p">)</span>
+
+    <span class="c"># Perform doctest of .dt file if it exists</span>
+    <span class="n">full_file_name</span> <span class="o">=</span> <span class="s">&quot;{0}.{1}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">full_module_name</span><span class="p">,</span> <span class="s">&#39;dt&#39;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="n">full_file_name</span><span class="p">):</span>
+        <span class="k">print</span><span class="p">(</span><span class="s">&#39;{0}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="mi">78</span><span class="o">*</span><span class="s">&#39;-&#39;</span><span class="p">))</span>
+        <span class="k">print</span><span class="p">(</span><span class="s">&#39;File under doctest:   {0}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">full_file_name</span><span class="p">))</span>
+        <span class="n">doctest</span><span class="o">.</span><span class="n">testfile</span><span class="p">(</span><span class="n">full_file_name</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="s">&#39;{0}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="mi">78</span><span class="o">*</span><span class="s">&#39;=&#39;</span><span class="p">))</span>
+
+
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">&quot;__main__&quot;</span><span class="p">:</span>
+    <span class="n">single_test</span><span class="p">(</span><span class="o">*</span><span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">:])</span>
 </pre></div>
 </div>
 </div>
