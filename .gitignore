@@ -1,0 +1,75 @@
+
+# Latex #
+#########
+
+*.acn
+*.acr
+*.alg
+*.aux
+*.bcf
+*.nav
+*.out
+*.xml
+*.snm
+*.glo
+*.glg
+*.gls
+*.idx
+*.ist
+*.loa
+*.lof
+*.log
+*.lot
+*.thm
+*.toc
+*.eps
+*.cls
+*.blg
+*.idx
+*.ilg
+*.ind
+
+# OS generated files #
+######################
+.DS_Store*
+Thumbs.db
+
+
+# Python #
+##########
+*.so
+*.o
+*.pyc
+*.hdf5
+*.dat
+*.mat
+*.vrb
+*.html
+*.inv
+*.js
+*.css
+*.doctree
+*.pickle
+
+
+# Packages #
+############
+# it's better to unpack these files and commit the raw source
+# git has its own built in compression methods
+*.7z
+*.bz2
+*.bzip2
+*.dmg
+*.gz
+*.iso
+*.jar
+*.rar
+*.tar
+*.tbz2
+*.tgz
+*.zip
+
+
+
+# Remove pdf-files from git control: git rm -r --cached *.pdf
+
