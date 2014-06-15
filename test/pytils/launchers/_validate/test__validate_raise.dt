@@ -1,0 +1,298 @@
+# Import function to be tested via doctest
+>>> from pytils.launchers._validate import _dir_exists
+>>> from pytils.launchers._validate import _verbose
+>>> from pytils.launchers._validate import _file_exists
+>>> from pytils.launchers._validate import _not_exists
+>>> from pytils.launchers._validate import _positive0_int
+>>> from pytils.launchers._validate import _logfile
+>>> from pytils.launchers._validate import _list_str
+>>> from pytils.launchers._validate import _dict_keys
+
+# Import of support modules/packages
+>>> import numpy as np
+>>> import os
+
+
+#----------------------------------------------------------------------------
+# _dir_exists
+#----------------------------------------------------------------------------
+# Test with current directory, which should not raise an error
+>>> _dir_exists('./')
+
+
+# Test with dir being a file, which should raise an error
+>>> _dir_exists('README')  # doctest: +ELLIPSIS
+Traceback (most recent call last):
+...
+ValueError: Specified directory (...) does not exist.
+
+
+# Test with non-existing directory, which should raise an error
+>>> _dir_exists('./test/___no_way___')  # doctest: +ELLIPSIS
+Traceback (most recent call last):
+...
+ValueError: Specified directory (...) does not exist.
+
+
+#----------------------------------------------------------------------------
+# _verbose
+#----------------------------------------------------------------------------
+# Test with valid input, which should not raise an error
+>>> _verbose('-q')
+
+
+# Test with valid input, which should not raise an error
+>>> _verbose('-Q')
+
+
+# Test with valid input, which should not raise an error
+>>> _verbose('-v')
+
+
+# Test with valid input, which should not raise an error
+>>> _verbose('-V')
+
+
+# Test with integer input, which should raise an error
+>>> _verbose(10)  # doctest: +ELLIPSIS
+Traceback (most recent call last):
+...
+ValueError: Verbose level (...) incorrectly specified.
+
+
+# Test with float input, which should raise an error
+>>> _verbose(99.7)  # doctest: +ELLIPSIS
+Traceback (most recent call last):
+...
+ValueError: Verbose level (...) incorrectly specified.
+
+
+# Test with numpy.float input, which should raise an error
+>>> _verbose(np.pi)  # doctest: +ELLIPSIS
+Traceback (most recent call last):
+...
+ValueError: Verbose level (...) incorrectly specified.
+
+
+# Test with invalid str input, which should raise an error
+>>> _verbose('+q')  # doctest: +ELLIPSIS
+Traceback (most recent call last):
+...
+ValueError: Verbose level (...) incorrectly specified.
+
+
+# Test with bool input, which should raise an error
+>>> _verbose(True)  # doctest: +ELLIPSIS
+Traceback (most recent call last):
+...
+ValueError: Verbose level (...) incorrectly specified.
+
+
+# Test with None input, which should raise an error
+>>> _verbose(None)  # doctest: +ELLIPSIS
+Traceback (most recent call last):
+...
+ValueError: Verbose level (...) incorrectly specified.
+
+
+#----------------------------------------------------------------------------
+# _file_exists
+#----------------------------------------------------------------------------
+# Test with an existing file, which should not raise an error
+>>> _file_exists('./pytils/__init__.py')
+
+
+# Test with an integer (not a file), which should raise an error
+>>> _file_exists(1010133310101)  # doctest: +ELLIPSIS
+Traceback (most recent call last):
+...
+TypeError: Input (...) must be a str.
+
+
+# Test with a numpy.float (not a file), which should raise an error
+>>> _file_exists(np.float)  # doctest: +ELLIPSIS
+Traceback (most recent call last):
+...
+TypeError: Input (...) must be a str.
+
+
+# Test with an existing directory, which should raise an error
+>>> _file_exists('./test')  # doctest: +ELLIPSIS
+Traceback (most recent call last):
+...
+IOError: File (...) does not exist.
+
+
+#----------------------------------------------------------------------------
+# _not_exists
+#----------------------------------------------------------------------------
+# Test with a non-existing file/directory, which should not raise an error
+>>> _not_exists('./test/0__INIT__0.NEW')
+
+
+# Test with a non-existing input of wrong type, which should raise an error
+>>> _not_exists(np.pi)  # doctest: +ELLIPSIS
+Traceback (most recent call last):
+...
+TypeError: Input (...) must be a str.
+
+
+# Test with an existing file, which should raise an error
+>>> _not_exists('./pytils/__init__.py')  # doctest: +ELLIPSIS
+Traceback (most recent call last):
+...
+IOError: File or directory (...) already exists.
+
+
+# Test with an existing directory, which should raise an error
+>>> _not_exists('./pytils')  # doctest: +ELLIPSIS
+Traceback (most recent call last):
+...
+IOError: File or directory (...) already exists.
+
+
+#----------------------------------------------------------------------------
+# _positive0_int
+#----------------------------------------------------------------------------
+# Test with a positive int (0 included) int, which should not raise an error
+>>> _positive0_int(0)
+
+
+# Test with a positive int (0 included) int, which should not raise an error
+>>> _positive0_int(100010001)
+
+
+# Test with a negative 0, which should not raise an error (corner case)
+>>> _positive0_int(-0)  # doctest: +ELLIPSIS
+
+
+# Test with a positive int (0 included) int, which should not raise an error
+>>> _positive0_int(104999400104999401L)
+
+
+# Test with a long (0 included) int, which should not raise an error
+>>> _positive0_int(long(104999400104999401))
+
+# Test with an np.int8 (0 included), which should not raise an error
+>>> _positive0_int(np.int8(10))
+
+
+# Test with an np.uint32 (0 included), which should not raise an error
+>>> _positive0_int(np.uint32(100010001))
+
+
+# Test with a str input, which should raise an error
+>>> _positive0_int('0')  # doctest: +ELLIPSIS
+Traceback (most recent call last):
+...
+TypeError: Variable (...) must be an int.
+
+
+# Test with a float input, which should raise an error
+>>> _positive0_int(0.0)  # doctest: +ELLIPSIS
+Traceback (most recent call last):
+...
+TypeError: Variable (...) must be an int.
+
+
+# Test with negative input, which should raise an error
+>>> _positive0_int(-1)  # doctest: +ELLIPSIS
+Traceback (most recent call last):
+...
+TypeError: Variable (...) must be positive.
+
+
+#----------------------------------------------------------------------------
+# _logfile
+#----------------------------------------------------------------------------
+# Test with None as input, which should not raise an error
+>>> _logfile(None)
+
+
+# Test with a non-str input, which should raise an error
+>>> _logfile(0)  # doctest: +ELLIPSIS
+Traceback (most recent call last):
+...
+ValueError: Logfile (...) invalid (must be str or None).
+
+
+# Test with an existing directory as input, which should raise an error
+>>> _logfile('./test')  # doctest: +ELLIPSIS
+Traceback (most recent call last):
+...
+ValueError: Logfile (...) already exists.
+
+
+# Test with an existing file as input, which should raise an error
+>>> _logfile('./pytils/__init__.py')  # doctest: +ELLIPSIS
+Traceback (most recent call last):
+...
+ValueError: Logfile (...) already exists.
+
+
+#----------------------------------------------------------------------------
+# _list_str
+#----------------------------------------------------------------------------
+# Test with a list of valid str's as input, which should not raise an error
+>>> _list_str(['W1234', 'S4321', 'Fxygh', 'Wjklk'])
+
+
+# Test with an invalid input tuple, which should raise an error
+>>> _list_str(('W1234', 'S4321', 'Fxygh', 'Wjklk'))  # doctest: +ELLIPSIS
+Traceback (most recent call last):
+...
+ValueError: Input (...) must be a list.
+
+
+# Test with an invalid input list, which should raise an error
+>>> _list_str(['W1234', 'S4321', 12345, 'Wjklk'])  # doctest: +ELLIPSIS
+Traceback (most recent call last):
+...
+ValueError: Input (...) list members must all be str.
+
+
+# Test with an invalid input list, which should raise an error
+>>> _list_str(['W1234', 'S4321', 'F2345', 'FjklkX'])  # doctest: +ELLIPSIS
+Traceback (most recent call last):
+...
+ValueError: Input list (...) have invalid members.
+
+
+#----------------------------------------------------------------------------
+# _dict_keys
+#----------------------------------------------------------------------------
+# Test with a list of valid str's as input, which should not raise an error
+>>> dct = {'failed': 10, 'succeeded': 333}
+>>> _dict_keys(dct, ['failed', 'succeeded'])
+
+
+# Test with an invalid keylist, which should raise an error
+>>> dct = {'failed': 10, 'succeeded': 333}
+>>> _dict_keys(dct, ('failed', 'succeeded'))  # doctest: +ELLIPSIS
+Traceback (most recent call last):
+...
+TypeError: Input (...) must be a list.
+
+
+# Test with an invalid keylist, which should raise an error
+>>> dct = {'failed': 10, 'succeeded': 333}
+>>> _dict_keys(dct, ['failed', 'succeeded', 9999])  # doctest: +ELLIPSIS
+Traceback (most recent call last):
+...
+ValueError: Input (...) list members must all be str.
+
+
+# Test with an invalid first argument type, which should raise an error
+>>> dct = ['failed', 10, 'succeeded', 333]
+>>> _dict_keys(dct, ['failed', 'succeeded'])  # doctest: +ELLIPSIS
+Traceback (most recent call last):
+...
+TypeError: Input (...) must be a dictionary.
+
+
+# Test with an invalid key in keylist, which should raise an error
+>>> dct = {'failed': 10, 'succeeded': 333}
+>>> _dict_keys(dct, ['failed', 'succeeded', 'warned'])  # doctest: +ELLIPSIS
+Traceback (most recent call last):
+...
+ValueError: Keylist (...) contains invalid key(s).

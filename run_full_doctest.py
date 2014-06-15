@@ -24,9 +24,11 @@ import pytils
 
 
 if __name__ == "__main__":
-    (path, verbose) = ('./', '-q')
-    if len(sys.argv) > 2:
-        path = sys.argv[1]
+    (PATH, LOGFILE, VERBOSE) = ('./', None, '-q')
     if len(sys.argv) > 1:
-        verbose = sys.argv[-1]
-    pytils.launchers.doctests.run(path, verbose)
+        VERBOSE = sys.argv[-1]
+    if len(sys.argv) > 2:
+        PATH = sys.argv[1]
+    if len(sys.argv) > 3:
+        LOGFILE = sys.argv[2]
+    pytils.launchers.doctests.run(PATH, LOGFILE, VERBOSE)

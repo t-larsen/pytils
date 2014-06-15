@@ -54,5 +54,5 @@ ValueError: No valid script files.
 
 >>> (path, headname) = ('examples/launchers/scripts/cases', 'case')
 >>> no_scripts = run_par(path, headname)  # doctest: +ELLIPSIS
-
-
+>>> print(no_scripts)
+4

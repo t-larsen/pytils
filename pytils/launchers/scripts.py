@@ -131,7 +131,7 @@ def run_par(path='./', headname='case', cores='max'):
 
         **ValueError** if *headname* is not a str.
 
-        **ValueError** if *cores* is chosen out of sensible range.
+        **ValueError** if *cores* not in valid range.
 
     """
     # Validate input
