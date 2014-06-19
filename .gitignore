@@ -1,4 +1,7 @@
-doc/build
+
+# Backup #
+##########
+.backup/
 
 # Latex #
 #########
@@ -7,6 +10,7 @@ doc/build
 *.acr
 *.alg
 *.aux
+*.bbl
 *.bcf
 *.nav
 *.out
@@ -30,6 +34,7 @@ doc/build
 *.ilg
 *.ind
 
+
 # OS generated files #
 ######################
 .DS_Store*
@@ -42,6 +47,7 @@ Thumbs.db
 *.o
 *.pyc
 *.hdf5
+*.npz
 *.dat
 *.mat
 *.vrb
@@ -51,6 +57,17 @@ Thumbs.db
 *.css
 *.doctree
 *.pickle
+.ipynb*
+
+
+# Sphinx #
+##########
+doc/build/html/*.*
+doc/build/html/*/*/*/*.*
+doc/*.ipynb
+doc/build/*/_*/*.*
+doc/build/*/_*/*/*.*
+doc/build/*/.*
 
 
 # Packages #
@@ -70,6 +87,14 @@ Thumbs.db
 *.tgz
 *.zip
 
+# PDF #
+#######
+*.pdf
+
+# Include pdf-references #
+##########################
+#!references/*/*.pdf
+#.DS_Store*
 
 
 # Remove pdf-files from git control: git rm -r --cached *.pdf
